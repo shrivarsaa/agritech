@@ -32,10 +32,8 @@ const ContactSection: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate form submission
     setTimeout(() => {
       setFormSubmitted(true);
-      // Reset form after 3 seconds
       setTimeout(() => {
         setFormSubmitted(false);
         setFormData({
@@ -65,16 +63,16 @@ const ContactSection: React.FC = () => {
           {/* Map and Contact Info */}
           <div>
             <div className="h-64 bg-green-800 rounded-xl mb-8 overflow-hidden relative">
-              {/* Map placeholder - would be replaced with actual map */}
               <img 
-                src="https://images.pexels.com/photos/2245432/pexels-photo-2245432.jpeg" 
-                alt="Map of London" 
+                src="https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg" 
+                alt="London Cityscape" 
                 className="w-full h-full object-cover opacity-60"
               />
               <div className="absolute inset-0 flex items-center justify-center">
-                <div className="bg-green-800/90 px-4 py-3 rounded-lg text-center">
-                  <h3 className="font-semibold mb-1">Global Headquarters</h3>
+                <div className="bg-green-800/90 px-6 py-4 rounded-lg text-center">
+                  <h3 className="font-semibold text-xl mb-2">Global Headquarters</h3>
                   <p className="text-green-100">London, United Kingdom</p>
+                  <p className="text-sm text-green-200 mt-1">The heart of sustainable innovation</p>
                 </div>
               </div>
             </div>
@@ -114,7 +112,7 @@ const ContactSection: React.FC = () => {
                   <div>
                     <h3 className="text-lg font-semibold mb-2">Phone</h3>
                     <p className="text-green-100">+44 20 1234 5678</p>
-                    <p className="text-green-100">Mon-Fri, 9AM-5PM GMT</p>
+                    <p className="text-sm text-green-200">Mon-Fri, 9AM-5PM GMT</p>
                   </div>
                 </div>
               </div>
@@ -122,9 +120,18 @@ const ContactSection: React.FC = () => {
               <div className="bg-green-800 rounded-xl p-6">
                 <h3 className="text-lg font-semibold mb-2">Regional Offices</h3>
                 <ul className="space-y-2 text-green-100">
-                  <li>Jakarta, Indonesia</li>
-                  <li>Nairobi, Kenya</li>
-                  <li>São Paulo, Brazil</li>
+                  <li className="flex items-center">
+                    <MapPin className="h-4 w-4 mr-2" />
+                    Jakarta, Indonesia
+                  </li>
+                  <li className="flex items-center">
+                    <MapPin className="h-4 w-4 mr-2" />
+                    Nairobi, Kenya
+                  </li>
+                  <li className="flex items-center">
+                    <MapPin className="h-4 w-4 mr-2" />
+                    São Paulo, Brazil
+                  </li>
                 </ul>
               </div>
             </div>

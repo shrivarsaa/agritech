@@ -3,9 +3,41 @@ import { ArrowRight, Download, Info } from 'lucide-react';
 import Button from './ui/Button';
 
 const TechnologySection: React.FC = () => {
-  // State for the interactive 3D model (simplified for this implementation)
-  const [modelRotation, setModelRotation] = useState({ x: 0, y: 0 });
+  const [activeFeature, setActiveFeature] = useState<number | null>(null);
   
+  const features = [
+    {
+      title: "Biomass Processing",
+      description: "Advanced processing of agricultural waste into high-quality biocrude",
+      image: "https://images.pexels.com/photos/2280571/pexels-photo-2280571.jpeg",
+      stats: {
+        efficiency: "85-90%",
+        capacity: "250,000 tonnes/year",
+        output: "High-grade SAF & SMF"
+      }
+    },
+    {
+      title: "Catalytic Conversion",
+      description: "Innovative catalytic technology for optimal conversion rates",
+      image: "https://images.pexels.com/photos/2478338/pexels-photo-2478338.jpeg",
+      stats: {
+        efficiency: "95% catalyst recovery",
+        temperature: "350-400°C",
+        pressure: "200-250 bar"
+      }
+    },
+    {
+      title: "Clean Energy Process",
+      description: "Environmentally conscious processing with minimal emissions",
+      image: "https://images.pexels.com/photos/356036/pexels-photo-356036.jpeg",
+      stats: {
+        emissions: "80% reduction",
+        water: "45% recycled",
+        waste: "Near-zero"
+      }
+    }
+  ];
+
   // Compare technologies data
   const compareTechnologies = [
     {
@@ -42,14 +74,6 @@ const TechnologySection: React.FC = () => {
     }
   ];
 
-  // Handle 3D model interaction (simplified)
-  const handleModelDrag = (e: React.MouseEvent) => {
-    setModelRotation({
-      x: modelRotation.x + e.movementY * 0.5,
-      y: modelRotation.y + e.movementX * 0.5
-    });
-  };
-
   return (
     <section id="technology" className="py-20 bg-gray-50">
       <div className="container mx-auto px-4 md:px-6">
@@ -61,94 +85,42 @@ const TechnologySection: React.FC = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
-          {/* Interactive 3D Model (simplified as a rotating div) */}
-          <div className="bg-white rounded-xl shadow-lg p-6 h-96 flex items-center justify-center relative overflow-hidden group">
-            <div 
-              className="w-64 h-64 relative transition-transform duration-500"
-              style={{ 
-                transform: `rotateX(${modelRotation.x}deg) rotateY(${modelRotation.y}deg)`,
-                transformStyle: 'preserve-3d',
-                perspective: '1000px'
-              }}
-              onMouseDown={() => document.addEventListener('mousemove', handleModelDrag as any)}
-              onMouseUp={() => document.removeEventListener('mousemove', handleModelDrag as any)}
+        {/* Interactive Feature Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+          {features.map((feature, index) => (
+            <div
+              key={index}
+              className="relative group cursor-pointer"
+              onMouseEnter={() => setActiveFeature(index)}
+              onMouseLeave={() => setActiveFeature(null)}
             >
-              {/* Simplified 3D model representation */}
-              <div className="absolute inset-0 bg-gradient-to-br from-green-500 to-blue-600 rounded-full opacity-70" 
-                style={{ transform: 'translateZ(-32px)' }} />
-              <div className="absolute inset-4 bg-gradient-to-tr from-green-600 to-blue-500 rounded-full opacity-80" 
-                style={{ transform: 'translateZ(-16px)' }} />
-              <div className="absolute inset-8 bg-gradient-to-r from-green-700 to-blue-400 rounded-full opacity-90" 
-                style={{ transform: 'translateZ(0px)' }} />
-              <div className="absolute inset-16 bg-gradient-to-b from-green-800 to-blue-300 rounded-full" 
-                style={{ transform: 'translateZ(16px)' }} />
-              <div className="absolute inset-24 bg-gradient-to-t from-green-900 to-blue-200 rounded-full" 
-                style={{ transform: 'translateZ(32px)' }} />
-            </div>
-
-            <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/20 transition-colors duration-300">
-              <div className="text-white bg-black/50 px-4 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
-                Drag to rotate
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <h3 className="text-2xl font-semibold text-gray-800 mb-4">How CAT-HTR Works</h3>
-            <p className="text-gray-600 mb-6">
-              The Catalytic Hydrothermal Reactor (CAT-HTR) technology uses supercritical water to convert agricultural waste into high-quality biocrude oil, which is then refined into sustainable aviation fuel (SAF) and sustainable maritime fuel (SMF).
-            </p>
-
-            <div className="space-y-4 mb-8">
-              <div className="flex items-start">
-                <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 mt-1">
-                  <span className="text-green-700 font-semibold">1</span>
-                </div>
-                <div className="ml-4">
-                  <h4 className="text-lg font-medium text-gray-800">Collection & Preparation</h4>
-                  <p className="text-gray-600">Agricultural waste is collected, cleaned, and processed to prepare it for conversion.</p>
+              <div className="relative h-80 rounded-xl overflow-hidden">
+                <img
+                  src={feature.image}
+                  alt={feature.title}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-6 text-white transform transition-transform duration-300">
+                  <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
+                  <p className="text-gray-200">{feature.description}</p>
                 </div>
               </div>
               
-              <div className="flex items-start">
-                <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 mt-1">
-                  <span className="text-green-700 font-semibold">2</span>
-                </div>
-                <div className="ml-4">
-                  <h4 className="text-lg font-medium text-gray-800">Hydrothermal Processing</h4>
-                  <p className="text-gray-600">Biomass is processed at high temperature and pressure in the presence of water and catalysts.</p>
-                </div>
-              </div>
-              
-              <div className="flex items-start">
-                <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 mt-1">
-                  <span className="text-green-700 font-semibold">3</span>
-                </div>
-                <div className="ml-4">
-                  <h4 className="text-lg font-medium text-gray-800">Refinement</h4>
-                  <p className="text-gray-600">The biocrude oil is refined into high-quality fuels that meet international standards.</p>
-                </div>
-              </div>
-              
-              <div className="flex items-start">
-                <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 mt-1">
-                  <span className="text-green-700 font-semibold">4</span>
-                </div>
-                <div className="ml-4">
-                  <h4 className="text-lg font-medium text-gray-800">Distribution</h4>
-                  <p className="text-gray-600">The sustainable fuels are distributed to aviation and maritime partners.</p>
-                </div>
+              {/* Stats Overlay */}
+              <div className={`absolute inset-0 bg-green-900/90 rounded-xl p-6 flex flex-col justify-center transform transition-all duration-300 ${
+                activeFeature === index ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+              }`}>
+                <h4 className="text-xl font-semibold text-white mb-4">{feature.title} Stats</h4>
+                {Object.entries(feature.stats).map(([key, value], i) => (
+                  <div key={i} className="mb-3">
+                    <div className="text-green-200 text-sm mb-1 capitalize">{key}</div>
+                    <div className="text-white font-semibold">{value}</div>
+                  </div>
+                ))}
               </div>
             </div>
-
-            <Button 
-              variant="primary" 
-              icon={<Download size={18} />}
-            >
-              Request Technical Whitepaper
-            </Button>
-          </div>
+          ))}
         </div>
 
         {/* Technology Comparison Table */}
@@ -212,50 +184,75 @@ const TechnologySection: React.FC = () => {
         <div className="bg-white rounded-xl shadow-lg p-6">
           <h3 className="text-2xl font-semibold text-gray-800 mb-6 text-center">Biomass to Fuel Conversion Process</h3>
           
-          <div className="relative">
-            {/* Process flow diagram - simplified for this implementation */}
-            <div className="max-w-4xl mx-auto h-64 relative">
-              {/* Step boxes with connector lines */}
-              <div className="absolute left-0 top-0 w-1/4 h-full flex items-center justify-center">
-                <div className="w-full max-w-xs bg-green-100 rounded-lg p-4 text-center">
-                  <div className="bg-green-700 text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-2">1</div>
-                  <h4 className="font-medium text-green-800">Biomass Collection</h4>
+          <div className="relative py-12">
+            <div className="max-w-5xl mx-auto">
+              {/* Process Steps */}
+              <div className="grid grid-cols-4 gap-8 relative">
+                {/* Connecting Line */}
+                <div className="absolute top-1/2 left-0 right-0 h-1 bg-green-200 -translate-y-1/2">
+                  <div className="absolute top-1/2 left-0 right-0 h-1 bg-green-600 transform -translate-y-1/2" style={{ width: '100%' }} />
                 </div>
+
+                {/* Step Boxes */}
+                {[
+                  { title: "Biomass Collection", icon: "🌾" },
+                  { title: "CAT-HTR Processing", icon: "⚗️" },
+                  { title: "Refinement", icon: "🔬" },
+                  { title: "SAF & SMF Production", icon: "⛽" }
+                ].map((step, index) => (
+                  <div key={index} className="relative">
+                    <div className="bg-white rounded-lg p-4 border-2 border-green-600 text-center relative z-10">
+                      <div className="text-3xl mb-2">{step.icon}</div>
+                      <h4 className="font-medium text-green-800">{step.title}</h4>
+                    </div>
+                    <div className="absolute top-1/2 left-1/2 w-8 h-8 bg-green-600 rounded-full -translate-x-1/2 -translate-y-1/2 z-20 flex items-center justify-center text-white font-bold">
+                      {index + 1}
+                    </div>
+                  </div>
+                ))}
               </div>
-              
-              <div className="absolute left-1/4 top-0 w-1/4 h-full flex items-center justify-center">
-                <div className="w-full max-w-xs bg-green-100 rounded-lg p-4 text-center">
-                  <div className="bg-green-700 text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-2">2</div>
-                  <h4 className="font-medium text-green-800">CAT-HTR Processing</h4>
-                </div>
-              </div>
-              
-              <div className="absolute left-2/4 top-0 w-1/4 h-full flex items-center justify-center">
-                <div className="w-full max-w-xs bg-green-100 rounded-lg p-4 text-center">
-                  <div className="bg-green-700 text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-2">3</div>
-                  <h4 className="font-medium text-green-800">Refinement</h4>
-                </div>
-              </div>
-              
-              <div className="absolute left-3/4 top-0 w-1/4 h-full flex items-center justify-center">
-                <div className="w-full max-w-xs bg-green-100 rounded-lg p-4 text-center">
-                  <div className="bg-green-700 text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-2">4</div>
-                  <h4 className="font-medium text-green-800">SAF & SMF Production</h4>
-                </div>
-              </div>
-              
-              {/* Connecting arrows */}
-              <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
-                <line x1="25%" y1="50%" x2="50%" y2="50%" stroke="#16a34a" strokeWidth="2" strokeDasharray="5,5" />
-                <line x1="50%" y1="50%" x2="75%" y2="50%" stroke="#16a34a" strokeWidth="2" strokeDasharray="5,5" />
-                <line x1="75%" y1="50%" x2="95%" y2="50%" stroke="#16a34a" strokeWidth="2" strokeDasharray="5,5" />
-                
-                {/* Arrow heads */}
-                <polygon points="47%,48% 50%,50% 47%,52%" fill="#16a34a" />
-                <polygon points="72%,48% 75%,50% 72%,52%" fill="#16a34a" />
-                <polygon points="92%,48% 95%,50% 92%,52%" fill="#16a34a" />
-              </svg>
             </div>
+          </div>
+        </div>
+
+        {/* Certifications */}
+        <div className="mt-16">
+          <h3 className="text-2xl font-semibold text-center mb-8">Certifications & Standards</h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {[
+              {
+                name: "ISO 14001",
+                image: "https://images.pexels.com/photos/3943716/pexels-photo-3943716.jpeg",
+                description: "Environmental Management"
+              },
+              {
+                name: "ISO 9001",
+                image: "https://images.pexels.com/photos/3943715/pexels-photo-3943715.jpeg",
+                description: "Quality Management"
+              },
+              {
+                name: "ISCC",
+                image: "https://images.pexels.com/photos/3943717/pexels-photo-3943717.jpeg",
+                description: "Sustainability Certification"
+              },
+              {
+                name: "RSB",
+                image: "https://images.pexels.com/photos/3943718/pexels-photo-3943718.jpeg",
+                description: "Roundtable on Sustainable Biomaterials"
+              }
+            ].map((cert, index) => (
+              <div key={index} className="bg-white rounded-xl shadow-lg p-4 hover:shadow-xl transition-shadow">
+                <div className="h-24 w-24 mx-auto mb-4 rounded-full overflow-hidden">
+                  <img
+                    src={cert.image}
+                    alt={cert.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <h4 className="text-lg font-semibold text-center text-gray-800 mb-2">{cert.name}</h4>
+                <p className="text-sm text-center text-gray-600">{cert.description}</p>
+              </div>
+            ))}
           </div>
         </div>
       </div>
