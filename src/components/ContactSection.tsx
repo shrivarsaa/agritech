@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Mail, Phone, MapPin, Send, CheckCircle } from 'lucide-react';
 import Button from './ui/Button';
 
-const ContactSection: React.FC = ()) => {
+const ContactSection: React.FC = () => {
   const [activeTab, setActiveTab] = useState('general');
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [formData, setFormData] = useState({
