@@ -6,7 +6,7 @@ import {
   Wind,
   Droplet
 } from "lucide-react";
-import AnimatedCounter from "../components/animations/AnimatedCounter";
+import AnimatedCounter from "./ui/AnimatedCounter";
 
 type MetricCardProps = {
   icon: JSX.Element;
@@ -65,18 +65,18 @@ const ImpactList: React.FC<ImpactListProps> = ({ items }) => (
   </ul>
 );
 
-type ROI = {
+interface ROI {
   investment: number;
   irr: number;
   payback: number;
   carbon: number;
-};
+}
 
-type EconomicsSectionProps = {
+interface EconomicsSectionProps {
   roi: ROI;
   roiValue: number;
   setRoiValue: (value: number) => void;
-};
+}
 
 const EconomicsSection: React.FC<EconomicsSectionProps> = ({ roi, roiValue, setRoiValue }) => {
   const formattedROI = {
